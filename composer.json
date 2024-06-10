@@ -1,0 +1,45 @@
+{
+    "name": "generalfocus/limitshield",
+    "description": "LimitShield is a middleware package designed to manage and enforce API rate limiting efficiently",
+    "type": "library",
+    "version": "1.0.0",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "middleware",
+        "rate limiting",
+        "API"
+    ],
+    "authors": [
+        {
+            "name": "Your Name",
+            "email": "your.email@example.com",
+            "homepage": "https://your-website.com",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "generalfocus\\limitshield\\": "src/"
+        }
+    },
+    "require": {
+        "php": "^7.4|^8.0",
+        "illuminate/support": "^8.0|^9.0|^10.0"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "generalfocus\\limitshield\\Providers\\PackageServiceProvider"
+            ]
+        }
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/your-username/your-package.git"
+    },
+    "support": {
+        "email": "youremail@example.com",
+        "issues": "https://github.com/your-username/your-package/issues"
+    }
+}
