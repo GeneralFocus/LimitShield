@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace GeneralFocus\LimitShield\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
