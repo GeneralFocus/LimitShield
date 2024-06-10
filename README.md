@@ -1,4 +1,3 @@
-```
 ## LimitShield
 
 **LimitShield** is a Laravel middleware package designed to efficiently manage and enforce API rate limiting. It offers customizable rate limits, supports IP-based and user-based limiting, integrates seamlessly with Redis for distributed rate limiting, and provides flexibility in crafting responses for rate limit breaches.
