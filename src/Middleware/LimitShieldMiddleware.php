@@ -34,17 +34,17 @@ class LimitShieldMiddleware
      * @param  Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
-        // Determine the rate limit based on the request
+        // Get rate limit configurations for the request
         $limit = $this->getRateLimit($request);
 
         // Check if the request exceeds the rate limit
         if ($this->limiter->tooManyAttempts($request, $limit['limit'], $limit['duration'])) {
-            return $this->handleRateLimitExceeded();
+            return $this->rateLimitExceededResponse();
         }
 
-        // Increment the request counter
+        // Increment the rate limit counter
         $this->limiter->hit($request, $limit['duration']);
 
         return $next($request);
@@ -56,28 +56,23 @@ class LimitShieldMiddleware
      * @param  Request  $request
      * @return array
      */
-    protected function getRateLimit(Request $request)
+    protected function getRateLimit(Request $request): array
     {
-        // Logic to determine the rate limit based on the request (e.g., endpoint, IP address, user)
-        // You can use the configuration settings to define rate limits for different scenarios
-        // Default to the default rate limit if no specific limit is configured for the request which is 60
-        
+        // Retrieve limit and duration from route or fall back to configuration defaults
         return [
-            'limit' => $request->route()->getAction('limit') ?? config('limitshield.default_limit.limit'),
-            'duration' => $request->route()->getAction('duration') ?? config('limitshield.default_limit.duration'),
+            'limit' => $request->route()->getAction('limit') ?? config('limitshield.default_limit.limit', 60),
+            'duration' => $request->route()->getAction('duration') ?? config('limitshield.default_limit.duration', 60),
         ];
     }
 
     /**
-     * Handle the case where the rate limit is exceeded.
+     * Response for when the rate limit is exceeded.
      *
      * @return Response
      */
-    protected function handleRateLimitExceeded()
+    protected function rateLimitExceededResponse(): Response
     {
-        // Get custom response message from configuration
-        $message = config('limitshield.responses.too_many_requests');
-
-        return response()->json(['error' => $message], 429); // 429 Too Many Requests status code
+        $message = config('limitshield.responses.too_many_requests', 'Too many requests');
+        return response()->json(['error' => $message], Response::HTTP_TOO_MANY_REQUESTS);
     }
 }
